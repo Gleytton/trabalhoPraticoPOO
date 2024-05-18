@@ -23,5 +23,12 @@ public class Aluno extends Pessoa{
     public void setLicao(int l){
         this.licao = l;
     }
+
+    public float getNota(){
+        return this.nota;
+    }
     
+    public void serNota(float n){
+        this.nota = n
+    }
 }
