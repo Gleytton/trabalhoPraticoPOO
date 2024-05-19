@@ -1,34 +1,26 @@
-public class Aluno extends Pessoa{
+public class Aluno extends Pessoa {
 
-    String[] mat = new String[5];
-    int nivel, licao;
-    float nota;
+    private int nivelAtual;
+    private int licaoFeita;
 
-    private String[] getMat() {
-        return this.mat;
-    }
-    private void setMat( String[] m){
-        this.mat = m;
-    }
-    public int getNível(){
-        return this.nivel;
-    }
-    public void setNivel(int n){
-        this.nivel = n;
+
+
+
+
+    public int getNível() {
+        return this.nivelAtual;
     }
 
-    public int getLicao(){
-        return this.licao;
-    }
-    public void setLicao(int l){
-        this.licao = l;
+    public void setNivel(int n) {
+        this.nivelAtual = n;
     }
 
-    public float getNota(){
-        return this.nota;
+    public int getLicao() {
+        return this.licaoFeita;
     }
-    
-    public void serNota(float n){
-        this.nota = n
+
+    public void setLicao(int l) {
+        this.licaoFeita = l;
     }
+
 }
