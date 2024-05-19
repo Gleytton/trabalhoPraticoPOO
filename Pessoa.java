@@ -4,30 +4,42 @@ public class Pessoa {
     private String login;
     private String senha;
 
-
-    public String[] getNome() {
-        return this.nome;
+    public Pessoa(String[] n, String l, String s){
+        this.setNome(n);
+        this.setLogin(l);
+        this.setSenha(s);
     }
+
+    public String[] getNome() {return this.nome;}
 
     public void setNome(String[] n) {
         this.nome = n;
     }
 
-    private String getLogin() {
+    public String getLogin() {
         return this.login;
     }
 
-    private void setLogin(String l) {
+    public void setLogin(String l) {
         this.login = l;
     }
 
-    private String getSenha() {
+    public String getSenha() {
         return this.senha;
     }
 
-    private void setSenha(String s) {
+    public void setSenha(String s) {
         this.senha = s;
     }
 
+    public void cadastro(String[] n, String l, String s){
+
+        Pessoa p1 = new Pessoa(n,l,s);
+    }
+
+    public void login(Pessoa p1){
+
+
+    }
 }
 
