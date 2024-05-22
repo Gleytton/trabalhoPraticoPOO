@@ -1,8 +1,24 @@
+
+
 public class Aluno extends Pessoa {
-    private int nivel = 1;
-    public Aluno(String n, String l, String s, int nivel) {
+
+    public int nivel;
+
+    public int getNivel() {
+        return this.nivel;
+    }
+
+    public void setNivel(int lvl) {
+        this.nivel = lvl;
+    }
+
+    public Aluno(String n, String l, String s, int lvl) {
         super(n, l, s);
-    this.nivel = nivel;
+        this.nivel = lvl;
     }
 
 }
+
+
+
+

@@ -1,72 +1,64 @@
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.*;
-import java.util.*;
+import java.io.PrintWriter;
 
 
 public class ArquivoAluno {
+    public static String Reader(String caminho){
 
-    public Aluno Write(){
+        String conteudo = "";
 
-     public  static final String USUARIOS_FILE = "aluno.txt";
-
-        private static Map<String, Pessoa> loadPessoa() throws IOException {
-            Map<String, Pessoa> pessoas = new HashMap<>();
-            File arquivo = new File(USUARIOS_FILE);
-            if (!arquivo.exists()) {
-                arquivo.createNewFile();
-                return pessoas;
-            }
-            return pessoas;
-        }
-
-        public static Pessoa registrarNovaPessoa(Scanner input) {
-            System.out.println("|      Cadastre o novo professor      |");
-            System.out.println("-------------------------------------");
-            System.out.print("|Nome: ");
-            String nome = input.nextLine();
-            System.out.print("|Login: ");
-            String login = input.nextLine();
-            System.out.print("|Senha: ");
-            String senha = input.nextLine();
-            System.out.println("|Nível:");
-            int nivel = input.nextInt();
-            return new Aluno(nome, login, senha,nivel);
-        }
-
-        String USUARIOS_FILE = "aluno.txt";
-
-    public String Read(String USUARIOS_FILE) { // função de LEITURA
-        StringBuilder conteudo = new StringBuilder();
-        try {
-            FileReader arq = new FileReader(USUARIOS_FILE);
+        try{
+            FileReader arq = new FileReader(caminho);
             BufferedReader lerArq = new BufferedReader(arq);
             String linha = "";
-            try {
+            try{
+
                 linha = lerArq.readLine();
-                while (linha != null) {
-                    conteudo.append(linha);
+                while(linha != null){
+                    conteudo += linha;
                     linha = lerArq.readLine();
                 }
-
                 arq.close();
-            } catch (IOException ex) {
-                conteudo = new StringBuilder("Erro: Não foi possível ler arquivo");
             }
-            if (conteudo.toString().contains("Erro")) {
-                return "";
-            } else {
-                return conteudo.toString();
+            catch(IOException e){
+                conteudo = "ERRO: Não foi possível ler arquivo";
             }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+        }catch (FileNotFoundException e){
+            conteudo = "ERRO: Arquivo não encontrado";
         }
-
+        if(conteudo.contains("ERRO")){
+            return "";
+        }
+        else{
+            return conteudo;
+        }
     }
 
+    public static boolean Writer(String caminho, String nome, String login, String senha, int nivel){
 
+        FileWriter arq = null;
 
+        try {
+            if (arq == null) {
+                arq = new FileWriter(caminho);
+                PrintWriter gravarArq = new PrintWriter(arq);
+                gravarArq.println(nome);
+                gravarArq.println(login);
+                gravarArq.println(senha);
+                gravarArq.println(nivel);
+                gravarArq.close();
+                return true;
+
+            }
+        }catch (IOException e){
+            System.out.println(e.getMessage());
+        }
+
+        return false;
+    }
 
 }
