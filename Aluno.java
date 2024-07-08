@@ -25,7 +25,10 @@ public class Aluno extends Pessoa {
         this.setLicaoFeita(licaoFeita);
     }
 
-    public receberPergunta()
+    public void receberPergunta(){
+
+
+    }
 
 
 }
