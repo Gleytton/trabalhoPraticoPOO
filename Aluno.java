@@ -1,24 +1,32 @@
-
-
 public class Aluno extends Pessoa {
 
-    public int nivel;
+    private int nivelAtual;
+    private int licaoFeita;
 
-    public int getNivel() {
-        return this.nivel;
+    public int getNivelAtual() {
+        return this.nivelAtual;
     }
 
-    public void setNivel(int lvl) {
-        this.nivel = lvl;
+    public void setNivelAtual(int nivelAtual) {
+        this.nivelAtual = nivelAtual;
     }
 
-    public Aluno(String n, String l, String s, int lvl) {
-        super(n, l, s);
-        this.nivel = lvl;
+    public int getLicaoFeita() {
+        return this.licaoFeita;
     }
+
+    public void setLicaoFeita(int licao) {
+        this.licaoFeita = licao;
+    }
+
+    public Aluno(String nome, String login, String senha, int nivelAtual, int licaoFeita){
+        super(nome, login, senha);
+        this.setNivelAtual(nivelAtual);
+        this.setLicaoFeita(licaoFeita);
+    }
+
+    public receberPergunta()
+
 
 }
-
-
-
 
