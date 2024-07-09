@@ -14,9 +14,9 @@ public class Professor extends Pessoa {
     public void setIdProfessor(String idProfessor){
         this.idProfessor = idProfessor;
     }
-    public Professor(String nome, String login, String senha, String idProfessor){
+    public Professor(String nome, String login, String senha,String tipo,  String idProfessor){
 
-        super(nome, login, senha);
+        super(nome, login, senha,tipo);
         this.setIdProfessor(idProfessor);
     }
 
@@ -53,6 +53,8 @@ public class Professor extends Pessoa {
 
             pw.print(lp.getFirst().getNivel() + "," + lp.getFirst().getIdPergunta()+","+ lp.getFirst().getOpcA()+","+ lp.getFirst().getOpcB()+","
                     + lp.getFirst().getOpcC()+","+ lp.getFirst().getOpcD()+ ","+ lp.getFirst().getResposta()+","+lp.getFirst().getIdPergunta());
+
+            pw.close();
         }
         catch (IOException ex){
 

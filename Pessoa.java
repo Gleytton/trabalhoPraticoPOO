@@ -37,13 +37,19 @@ public class Pessoa {
         this.tipo = tipo;
     }
 
-    public Pessoa(String nome, String login, String senha, String tipo){
+    public Pessoa(String nome,String login, String senha, String tipo){
         this.setNome(nome);
         this.setLogin(login);
         this.setSenha(senha);
         this.setTipo(tipo);
     }
+}
+
     Scanner teclado = new Scanner(System.in);
+
+
+
+
 
     public void cadastro(){
 
@@ -69,12 +75,44 @@ public class Pessoa {
 
             pw.print(p1.getFirst().getNome()+","+p1.getFirst().getLogin()+","+p1.getFirst().getSenha()+","
                     +p1.getFirst().getTipo());
+            pw.close();
         }
         catch (IOException ex){
 
             System.out.println("Erro: Não foi possível escrever arquivo");
         }
     }
+
+    public void fazerLogin(){
+        Scanner teclado = new Scanner(System.in);
+        System.out.printf("Login: ");
+        this.setLogin(teclado.nextLine());
+        System.out.println("Senha: ");
+        this.setSenha(teclado.nextLine());
+
+        String caminho = "usuario.txt";
+
+        List<String> p = new ArrayList();
+
+        try{
+            FileReader arq = new FileReader(caminho);
+            BufferedReader lerArq = new BufferedReader(arq);
+            String linha = lerArq.readLine();
+
+            while(linha!= null){
+              p.add(linha);
+              linha = lerArq.readLine();
+            }
+
+            arq.close();
+
+
+        }
+        catch (IOException e) {
+            System.err.printf("Erro na abertura do arquivo: %s.",
+                    e.getMessage());
+    }
+
 
 
 

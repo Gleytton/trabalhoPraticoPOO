@@ -1,3 +1,8 @@
+import java.io.*;
+import java.util.Scanner;
+import java.util.List;
+import java.util.ArrayList;
+
 public class Aluno extends Pessoa {
 
     private int nivelAtual;
@@ -6,7 +11,6 @@ public class Aluno extends Pessoa {
     public int getNivelAtual() {
         return this.nivelAtual;
     }
-
     public void setNivelAtual(int nivelAtual) {
         this.nivelAtual = nivelAtual;
     }
@@ -19,14 +23,20 @@ public class Aluno extends Pessoa {
         this.licaoFeita = licao;
     }
 
-    public Aluno(String nome, String login, String senha, int nivelAtual, int licaoFeita){
-        super(nome, login, senha);
+    public Aluno(String nome, String login, String senha,String tipo, int nivelAtual, int licaoFeita){
+        super(nome, login, senha,tipo);
         this.setNivelAtual(nivelAtual);
         this.setLicaoFeita(licaoFeita);
     }
+    String caminho = "perguntas.txt";
 
     public void receberPergunta(){
 
+        FileReader arq = new FileReader(caminho);
+        BufferedReader lerArq = new BufferedReader(arq);
+        List<Pergunta> p = new ArrayList<>();
+        p.
+        if (this.getNivelAtual() == )
 
     }
 
