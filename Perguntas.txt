@@ -1,0 +1,2 @@
+ID: 0, Nível: 1, Pergunta: Nova Pergunta?, A: A, B: B, C: C, D: D, Resposta: A
+ID: 0, Nível: 1, Pergunta: Nova Pergunta?, A: A, B: B, C: C, D: D, Resposta: A

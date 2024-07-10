@@ -1,0 +1,2 @@
+Login: null, Senha: null, Acertos: 0, Respondidas: 0, Nível: 1
+Login: null, Senha: null, Acertos: 0, Respondidas: 0, Nível: 1
