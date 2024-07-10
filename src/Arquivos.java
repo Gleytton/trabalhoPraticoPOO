@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Arquivos {
 
-    public void salvarInformacoesAluno(Aluno aluno) {
+    public void salvarAluno(Aluno aluno) {
         File arquivo = new File("Aluno.txt");
         try {
             if (!arquivo.exists()) {
@@ -52,22 +52,24 @@ public class Arquivos {
     }
 
     // Método para ler informações dos alunos
-    public static List<Aluno> lerInformacoesAlunos() {
+    public List<Aluno> lerAlunos() {
         List<Aluno> alunos = new ArrayList<>();
         String caminho = "Aluno.txt";
         try (BufferedReader br = new BufferedReader(new FileReader(caminho))) {
             String linha;
             while ((linha = br.readLine()) != null) {
                 String[] dados = linha.split(", ");
-                // Supondo que o ID seja o primeiro elemento, e os dados de interesse comecem do segundo elemento
-                Aluno aluno = new Aluno(dados[1].split(": ")[1], // nome
-                        dados[2].split(": ")[1], // login
-                        dados[3].split(": ")[1], // senha
-                        dados[4].split(": ")[1], // tipo
-                        Integer.parseInt(dados[5].split(": ")[1]), // nivelAtual
-                        Integer.parseInt(dados[6].split(": ")[1]), // acertou
-                        Integer.parseInt(dados[7].split(": ")[1])); // totalRespondidas
-                alunos.add(aluno);
+                // Ajuste para considerar a remoção do atributo tipo
+                if (dados.length >= 7) { // Verifica se há elementos suficientes
+                    Aluno aluno = new Aluno(dados[1].split(": ")[1], // nome
+                            dados[2].split(": ")[1], // login
+                            dados[3].split(": ")[1]); // senha
+                    // Configuração dos atributos adicionais
+                    aluno.setNivelAtual(Integer.parseInt(dados[4].split(": ")[1]));
+                    aluno.setAcertou(Integer.parseInt(dados[5].split(": ")[1]));
+                    aluno.setTotalRespondidas(Integer.parseInt(dados[6].split(": ")[1]));
+                    alunos.add(aluno);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -76,14 +78,20 @@ public class Arquivos {
     }
 
     // Método para ler perguntas
-    public static List<Pergunta> lerPerguntas() {
+    public List<Pergunta> lerPerguntas() {
         List<Pergunta> perguntas = new ArrayList<>();
         String caminho = "Perguntas.txt";
         try (BufferedReader br = new BufferedReader(new FileReader(caminho))) {
             String linha;
             while ((linha = br.readLine()) != null) {
                 String[] dados = linha.split(", ");
-                Pergunta perguntaExistentes = new Pergunta(Integer.parseInt(dados[1].split(": ")[1]), dados[2].split(": ")[1], dados[3].split(": ")[1], dados[4].split(": ")[1], dados[5].split(": ")[1], dados[6].split(": ")[1], dados[7].split(": ")[1]);
+                Pergunta perguntaExistentes = new Pergunta(Integer.parseInt(dados[1].split(": ")[1]),
+                        dados[2].split(": ")[1],
+                        dados[3].split(": ")[1],
+                        dados[4].split(": ")[1],
+                        dados[5].split(": ")[1],
+                        dados[6].split(": ")[1],
+                        dados[7].split(": ")[1]);
                 perguntas.add(perguntaExistentes);
             }
         } catch (IOException e) {
@@ -97,6 +105,16 @@ public class Arquivos {
         List<Pergunta> perguntasExistentes = lerPerguntas();
         for (Pergunta pergunta : perguntasExistentes) {
             if (pergunta.getPergunta().equalsIgnoreCase(novaPergunta)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    // Método para verificar se o usuario já está cadastrado
+    public boolean alunoJaExiste(String login) {
+        List<Aluno> alunosExistentes = lerAlunos();
+        for (Aluno aluno : alunosExistentes) {
+            if (aluno.getLogin().equalsIgnoreCase(login)) {
                 return true;
             }
         }

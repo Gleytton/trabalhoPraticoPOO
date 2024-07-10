@@ -1,10 +1,10 @@
 
-public abstract class Usuario {
+public abstract class Usuario extends Arquivos{
     private String nome;
     private String login;
     private String senha;
 
-    public Usuario(String nome, String login, String senha, String tipo) {
+    public Usuario(String nome, String login, String senha) {
     }
 
     public String getNome() {

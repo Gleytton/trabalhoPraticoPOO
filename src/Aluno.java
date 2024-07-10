@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Scanner;
 
 public class Aluno extends Usuario {
 
@@ -10,24 +7,38 @@ public class Aluno extends Usuario {
     private int totalRespondidas;
 
     //construct
-    public Aluno(String nome, String login, String senha, String tipo, ) {
-        super(nome, login, senha,tipo);
-        this.nivelAtual = 1;
-        this.acertou = 0;
-        this.totalRespondidas = 0;
+    public Aluno(String nome, String login, String senha) {
+        super(nome, login, senha);
+        this.nivelAtual = 1; // Nível atual inicializado como 1
+        this.acertou = 0; // Total de acertos inicializado como 0
+        this.totalRespondidas = 0; // Total respondidas inicializado como 0
+
+
     }
 
-//    precisa disso ?
-//    public void receberPergunta(){
-//        String caminho = "perguntas.txt";
-//        FileReader arq = new FileReader(caminho);
-//        BufferedReader lerArq = new BufferedReader(arq);
-//        List<Pergunta> p = new ArrayList<>();
-//        p.
-//        if (this.getNivelAtual() == )
-//    }
+    //método criar aluno
+    public void criarAluno() {
+        Scanner teclado = new Scanner(System.in);
+
+        System.out.print("Digite seu Nome: ");
+        String nome = teclado.nextLine();
+        System.out.println("Digite seu Login: ");
+        String login = teclado.nextLine();
+        System.out.println("Digite sua Senha: ");
+        String senha = teclado.nextLine();
+
+        Aluno aluno = new Aluno(nome, login, senha);
+
+        if(alunoJaExiste(this.getLogin())){
+            System.out.println("Usuario já cadastrado!");
+        } else {
+            salvarAluno(aluno);
+        }
+
+    }
 
     //getters & setters
+
 
     public int getTotalRespondidas() {
         return totalRespondidas;

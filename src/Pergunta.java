@@ -21,7 +21,6 @@ public class Pergunta extends Arquivos {
         this.resposta = resposta;
     }
 
-
     //método Criar Pergunta
     public void CriarPergunta() {
 
@@ -47,6 +46,7 @@ public class Pergunta extends Arquivos {
             System.out.println("Pergunta já existe!");
         } else {
             salvarPergunta(p);
+            idPergunta++;
         }
 
     }
