@@ -42,16 +42,16 @@ public class ProfessorScreen extends JFrame {
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Arquivos arquivos = new Arquivos();
                 // Criação da instância de Pergunta
                 Pergunta pergunta = new Pergunta(Integer.parseInt((String) levelComboBox.getSelectedItem()), questionField.getText(),
                         optionFields[0].getText(), optionFields[1].getText(), optionFields[2].getText(), optionFields[3].getText(),
                         (String) correctAnswerComboBox.getSelectedItem());
 
                 // Ajuste conforme necessário para obter o ID correto
-                pergunta.setIdPergunta(Pergunta.getIdPergunta() + 1);
+                pergunta.setIdPergunta(arquivos.getIdUltimaPergunta() + 1);
 
                 // Salvando a pergunta
-                Arquivos arquivos = new Arquivos();
                 arquivos.salvarPergunta(pergunta);
 
                 // Dentro do actionPerformed do submitButton após salvar a pergunta

@@ -70,13 +70,13 @@ public class QuizScreen extends JFrame {
             Pergunta currentQuestion = perguntas.get(questionIndex);
             questionLabel.setText(currentQuestion.getPergunta());
             optionAButton.setText(currentQuestion.getOpcA());
-            optionAButton.setActionCommand(currentQuestion.getOpcA());
+            optionAButton.setActionCommand("A");
             optionBButton.setText(currentQuestion.getOpcB());
-            optionBButton.setActionCommand(currentQuestion.getOpcB());
+            optionBButton.setActionCommand("B");
             optionCButton.setText(currentQuestion.getOpcC());
-            optionCButton.setActionCommand(currentQuestion.getOpcC());
+            optionCButton.setActionCommand("C");
             optionDButton.setText(currentQuestion.getOpcD());
-            optionDButton.setActionCommand(currentQuestion.getOpcD());
+            optionDButton.setActionCommand("D");
         } else {
             //JOptionPane.showMessageDialog(this, "Quiz concluído!");
             dispose(); // Fecha a janela do quiz
@@ -84,21 +84,25 @@ public class QuizScreen extends JFrame {
     }
 
     private void checkAnswer(String selectedOption) {
+        Arquivos arquivos = new Arquivos();
         Pergunta currentQuestion = perguntas.get(currentQuestionIndex);
-        aluno.setTotalRespondidas(aluno.getTotalRespondidas() + 1);
         if (selectedOption.equalsIgnoreCase(currentQuestion.getResposta())) {
             aluno.setAcertou(aluno.getAcertou() + 1);
+            aluno.setTotalRespondidas(aluno.getTotalRespondidas() + 1);
+
             if (aluno.getAcertou() % 4 == 0) {
                 aluno.setNivelAtual(aluno.getNivelAtual() + 1);
                 alunoNivelLabel.setText("Nível: " + aluno.getNivelAtual()); // Atualiza o nível na interface
             }
             JOptionPane.showMessageDialog(this, "Resposta correta!");
         } else {
+            aluno.setTotalRespondidas(aluno.getTotalRespondidas() + 1);
             JOptionPane.showMessageDialog(this, "Resposta incorreta!");
         }
         currentQuestionIndex++;
         setQuestion(currentQuestionIndex);
         atualizarPerguntasRestantes();
+        arquivos.atualizarStatusAluno(aluno);
     }
 
     private void atualizarPerguntasRestantes() {

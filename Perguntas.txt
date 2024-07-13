@@ -1,2 +1,2 @@
-ID: 1, Nível: 1, Pergunta: QUal o nome da cor amarela , A: yellow, B: red, C: blue, D: pink, Resposta: A
-ID: 1, Nível: 2, Pergunta: oaisdoais, A: dad, B: sdaawe, C: sdqw, D: safasf, Resposta: C
+ID: 1, Nível: 1, Pergunta: amarelo em ingles, A: yellow , B: blue , C: green , D: black, Resposta: A
+ID: 2, Nível: 1, Pergunta: huiasdhuiasd, A: dfoifa, B: bbui, C: juibi, D: b , Resposta: D

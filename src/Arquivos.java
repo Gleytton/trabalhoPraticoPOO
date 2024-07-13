@@ -282,5 +282,63 @@ public class Arquivos {
 
         return null; // Retorna null se não encontrar o professor
     }
+
+    public int getIdUltimaPergunta() {
+        File arquivo = new File("Perguntas.txt");
+        int ultimoId = 0; // Valor padrão se não houver perguntas
+
+        if (!arquivo.exists()) {
+            return ultimoId;
+        }
+
+        try (BufferedReader br = new BufferedReader(new FileReader(arquivo))) {
+            String linha;
+            while ((linha = br.readLine()) != null) {
+                // Supondo que o ID esteja no início da linha seguido de ":"
+                // e que cada pergunta esteja em uma nova linha
+                String[] partes = linha.split(", ");
+                String idParte = partes[0]; // "ID: 123"
+                String[] idSplit = idParte.split(": ");
+                if (idSplit.length > 1) {
+                    try {
+                        ultimoId = Integer.parseInt(idSplit[1]);
+                    } catch (NumberFormatException e) {
+                        // Se não conseguir converter para inteiro, ignora e continua
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return ultimoId;
+    }
+    public void atualizarStatusAluno(Aluno aluno) {
+        File arquivo = new File("Aluno.txt");
+        List<String> linhas = new ArrayList<>();
+        String linhaAtualizada = "Nome: " + aluno.getNome() + ", Login: " + aluno.getLogin() + ", Senha: " + aluno.getSenha() + ", NivelAtual: " + aluno.getNivelAtual() + ", Acertou: " + aluno.getAcertou() + ", TotalRespondidas: " + aluno.getTotalRespondidas();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(arquivo))) {
+            String linha;
+            while ((linha = br.readLine()) != null) {
+                if (linha.contains("Login: " + aluno.getLogin())) {
+                    linhas.add(linhaAtualizada);
+                } else {
+                    linhas.add(linha);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try (PrintWriter pw = new PrintWriter(new FileWriter(arquivo))) {
+            for (String novaLinha : linhas) {
+                pw.println(novaLinha);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
+
 
