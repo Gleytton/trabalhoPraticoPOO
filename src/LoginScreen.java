@@ -37,8 +37,8 @@ public class LoginScreen extends JFrame {
                 String senha = new String(passwordField.getPassword());
                 Arquivos arquivos = new Arquivos();
 
-                if (arquivos.verificarLoginSenha(login, senha)) {
-                    Aluno alunoLogado = arquivos.buscarAluno(login);
+
+                Aluno alunoLogado = arquivos.buscarAluno(login);
                     if (alunoLogado != null) {
                         QuizScreen quizScreen = new QuizScreen(alunoLogado);
                         quizScreen.setVisible(true);
@@ -53,9 +53,7 @@ public class LoginScreen extends JFrame {
                             JOptionPane.showMessageDialog(null, "Login ou senha inválidos.");
                         }
                     }
-                } else {
-                    JOptionPane.showMessageDialog(null, "Login ou senha inválidos.");
-                }
+
             }
         });
 

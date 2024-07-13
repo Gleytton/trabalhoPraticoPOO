@@ -78,7 +78,7 @@ public class QuizScreen extends JFrame {
             optionDButton.setText(currentQuestion.getOpcD());
             optionDButton.setActionCommand(currentQuestion.getOpcD());
         } else {
-            JOptionPane.showMessageDialog(this, "Quiz concluído!");
+            //JOptionPane.showMessageDialog(this, "Quiz concluído!");
             dispose(); // Fecha a janela do quiz
         }
     }
