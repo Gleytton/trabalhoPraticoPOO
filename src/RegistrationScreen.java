@@ -1,5 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -57,13 +56,8 @@ public class RegistrationScreen extends JFrame {
                 Arquivos arquivos = new Arquivos(); // Create an instance of Arquivos
 
                 if (studentRadioButton.isSelected()) {
-                    if (!arquivos.alunoJaExiste(login)) { // Call the method on the instance
-                        Aluno aluno = new Aluno(nome, login, senha, 1, 0, 0);
-                        arquivos.salvarAluno(aluno); // Assuming salvarAluno is also an instance method
-                        JOptionPane.showMessageDialog(null, "Aluno registrado com sucesso!");
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Aluno já cadastrado!");
-                    }
+                    Aluno aluno = new Aluno(nome, login, senha, 1, 0, 0);
+                    arquivos.salvarAluno(aluno); // Assuming salvarAluno is also an instance method
                 } else if (professorRadioButton.isSelected()) {
                     // Implementação para registrar professor
                 } else {

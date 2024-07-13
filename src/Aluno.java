@@ -7,26 +7,16 @@ public class Aluno extends Usuario {
     //construct
     public Aluno(String nome, String login, String senha, int nivelAtual,int acertou, int totalRespondidas) {
         super(nome, login, senha);
+
         this.setNivelAtual(nivelAtual); // Nível atual inicializado como 1
         this.setAcertou(acertou); // Total de acertos inicializado como 0
         this.setTotalRespondidas(totalRespondidas); // Total respondidas inicializado como 0
-
-        Arquivos arquivos = new Arquivos();
-        if (arquivos.alunoJaExiste(login)) {
-            System.out.println("Usuario já cadastrado!");
-        }
     }
-
-    //método criar aluno
-    public void criarAluno() {
-            //salvarAluno(this.aluno);
-    }
-
     //getters & setters
 
 
     public int getTotalRespondidas() {
-        return totalRespondidas;
+        return this.totalRespondidas;
     }
 
     public void setTotalRespondidas(int totalRespondidas) {
@@ -34,7 +24,7 @@ public class Aluno extends Usuario {
     }
 
     public int getNivelAtual() {
-        return nivelAtual;
+        return this.nivelAtual;
     }
 
     public void setNivelAtual(int nivelAtual) {
@@ -42,7 +32,7 @@ public class Aluno extends Usuario {
     }
 
     public int getAcertou() {
-        return acertou;
+        return this.acertou;
     }
 
     public void setAcertou(int acertou) {

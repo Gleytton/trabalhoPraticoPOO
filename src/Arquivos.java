@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -5,25 +6,28 @@ import java.util.Scanner;
 
 public class Arquivos {
 
-    // Dentro da classe Arquivos
-    public static void salvarAluno(Aluno aluno) {
-        String nome = aluno.getNome();
-        String login = aluno.getLogin();
-        String senha = aluno.getSenha();
-        int nivelAtual = aluno.getNivelAtual();
-        int acertou = aluno.getAcertou();
-        int totalRespondidas = aluno.getTotalRespondidas();
-        String caminhoArquivo = "C:\\Users\\lugav\\IdeaProjects\\trabalhoPraticoPOO\\Aluno.txt"; // Pode ser ajustado para um caminho absoluto se necessário
+
+    public void salvarAluno(Aluno aluno) {
+        List<Aluno> alunosExistentes = lerAlunos();
+        for (Aluno alunoExistente : alunosExistentes) {
+            if (alunoExistente.getNome().equals(aluno.getNome()) &&
+                    alunoExistente.getLogin().equals(aluno.getLogin()) &&
+                    alunoExistente.getSenha().equals(aluno.getSenha())) {
+                System.out.println("Aluno já está cadastrado.");
+                JOptionPane.showMessageDialog(null, "Aluno já cadastrado!");
+                return;
+            }
+        }
+
+        String caminhoArquivo = "Aluno.txt";
         File arquivo = new File(caminhoArquivo);
         try {
             if (!arquivo.exists()) {
-                arquivo.createNewFile(); // Cria o arquivo se ele não existir
+                arquivo.createNewFile();
             }
             try (BufferedWriter bw = new BufferedWriter(new FileWriter(arquivo, true))) {
                 String conteudo = String.format("Nome: %s, Login: %s, Senha: %s, NivelAtual: %d, Acertou: %d, TotalRespondidas: %d\n",
-                        nome, login, senha, nivelAtual, acertou, totalRespondidas);
-
-                System.out.println("Salvando no arquivo Aluno.txt: " + conteudo);
+                        aluno.getNome(), aluno.getLogin(), aluno.getSenha(), aluno.getNivelAtual(), aluno.getAcertou(), aluno.getTotalRespondidas());
 
                 bw.write(conteudo);
             }
@@ -31,29 +35,32 @@ public class Arquivos {
             e.printStackTrace();
             System.out.println("Erro ao acessar o arquivo " + caminhoArquivo);
         }
+        JOptionPane.showMessageDialog(null, "Aluno registrado com sucesso!");
     }
 
     // Método para salvar perguntas
     public void salvarPergunta(Pergunta pergunta) {
+        if (perguntaJaExiste(pergunta.getPergunta())) {
+            System.out.println("Pergunta já cadastrada!");
+            return;
+        }
+
         File arquivo = new File("Perguntas.txt");
         try {
             if (!arquivo.exists()) {
                 arquivo.createNewFile();
             }
-            FileWriter fw = new FileWriter(arquivo, true);
-            BufferedWriter bw = new BufferedWriter(fw);
+            try (FileWriter fw = new FileWriter(arquivo, true);
+                 BufferedWriter bw = new BufferedWriter(fw)) {
 
-            // Formatação da pergunta para salvar no arquivo
-            String infoPergunta = String.format("ID: %d, Nível: %d, Pergunta: %s, A: %s, B: %s, C: %s, D: %s, Resposta: %s",
-                    pergunta.getIdPergunta(), pergunta.getNivel(), pergunta.getPergunta(), pergunta.getOpcA(), pergunta.getOpcB(), pergunta.getOpcC(), pergunta.getOpcD(), pergunta.getResposta());
+                String infoPergunta = String.format("ID: %d, Nível: %d, Pergunta: %s, A: %s, B: %s, C: %s, D: %s, Resposta: %s\n",
+                        pergunta.getIdPergunta(), pergunta.getNivel(), pergunta.getPergunta(), pergunta.getOpcA(), pergunta.getOpcB(), pergunta.getOpcC(), pergunta.getOpcD(), pergunta.getResposta());
 
-            bw.write(infoPergunta);
-            bw.newLine();
-
-            bw.close();
-            fw.close();
+                bw.write(infoPergunta);
+            }
         } catch (IOException e) {
             e.printStackTrace();
+            System.out.println("Erro ao acessar o arquivo " + arquivo.getPath());
         }
     }
 
@@ -69,7 +76,6 @@ public class Arquivos {
             String linha;
             while ((linha = br.readLine()) != null) {
                 String[] dados = linha.split(", ");
-
                 String nome = dados[0].split(": ")[1];
                 String login = dados[1].split(": ")[1];
                 String senha = dados[2].split(": ")[1];

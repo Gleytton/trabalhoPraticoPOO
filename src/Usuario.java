@@ -5,6 +5,9 @@ public abstract class Usuario extends Arquivos{
     private String senha;
 
     public Usuario(String nome, String login, String senha) {
+        setNome(nome);
+        setLogin(login);
+        setSenha(senha);
     }
 
     public String getNome() {
