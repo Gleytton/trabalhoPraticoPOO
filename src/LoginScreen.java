@@ -7,34 +7,29 @@ public class LoginScreen extends JFrame {
     private JPasswordField passwordField;
     private JButton loginButton;
     private JButton registerButton;
+    private JPanel mainPanel;
 
     public LoginScreen() {
-        setTitle("Login Screen");
+        setTitle("Login");
         setSize(300, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        initializeComponents();
-        layoutComponents();
-        initializeListeners();
+        buildUI();
     }
 
-    private void initializeComponents() {
+    private void buildUI() {
+        mainPanel = new JPanel();
         loginField = new JTextField(20);
         passwordField = new JPasswordField(20);
         loginButton = new JButton("Login");
-        registerButton = new JButton("Register");
-    }
+        registerButton = new JButton("Registrar");
 
-    private void layoutComponents() {
-        setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
-        add(new JLabel("Login:"));
-        add(loginField);
-        add(new JLabel("Password:"));
-        add(passwordField);
-        add(loginButton);
-        add(registerButton);
-    }
+        mainPanel.add(new JLabel("Login:"));
+        mainPanel.add(loginField);
+        mainPanel.add(new JLabel("Senha:"));
+        mainPanel.add(passwordField);
+        mainPanel.add(loginButton);
+        mainPanel.add(registerButton);
 
-    private void initializeListeners() {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -42,34 +37,30 @@ public class LoginScreen extends JFrame {
                 String senha = new String(passwordField.getPassword());
                 Arquivos arquivos = new Arquivos();
                 if (arquivos.verificarLoginSenha(login, senha)) {
-                    // Login bem-sucedido
-                    System.out.println("Login bem-sucedido");
+                    Aluno alunoLogado = arquivos.buscarAluno(login);
+                    QuizScreen quizScreen = new QuizScreen(alunoLogado);
+                    quizScreen.setVisible(true);
+                    dispose(); // Fecha a tela de login
                 } else {
-                    // Usuário não encontrado
-                    JOptionPane.showMessageDialog(null, "Usuário não encontrado");
+                    JOptionPane.showMessageDialog(null, "Login ou senha inválidos.");
                 }
             }
         });
 
-        switchToRegistrationScreen();
-    }
-
-    private void switchToRegistrationScreen() {
         registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 RegistrationScreen registrationScreen = new RegistrationScreen();
                 registrationScreen.setVisible(true);
+                dispose(); // Fecha a tela de login
             }
         });
+
+        add(mainPanel);
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new LoginScreen().setVisible(true);
-            }
-        });
+        LoginScreen loginScreen = new LoginScreen();
+        loginScreen.setVisible(true);
     }
 }

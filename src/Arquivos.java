@@ -6,26 +6,30 @@ import java.util.Scanner;
 public class Arquivos {
 
     // Dentro da classe Arquivos
-    public void salvarAluno(Aluno aluno) {
-        File arquivo = new File("Aluno.txt");
+    public static void salvarAluno(Aluno aluno) {
+        String nome = aluno.getNome();
+        String login = aluno.getLogin();
+        String senha = aluno.getSenha();
+        int nivelAtual = aluno.getNivelAtual();
+        int acertou = aluno.getAcertou();
+        int totalRespondidas = aluno.getTotalRespondidas();
+        String caminhoArquivo = "C:\\Users\\lugav\\IdeaProjects\\trabalhoPraticoPOO\\Aluno.txt"; // Pode ser ajustado para um caminho absoluto se necessário
+        File arquivo = new File(caminhoArquivo);
         try {
             if (!arquivo.exists()) {
-                arquivo.createNewFile();
+                arquivo.createNewFile(); // Cria o arquivo se ele não existir
             }
-            FileWriter fw = new FileWriter(arquivo, true);
-            BufferedWriter bw = new BufferedWriter(fw);
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(arquivo, true))) {
+                String conteudo = String.format("Nome: %s, Login: %s, Senha: %s, NivelAtual: %d, Acertou: %d, TotalRespondidas: %d\n",
+                        nome, login, senha, nivelAtual, acertou, totalRespondidas);
 
-            // Formatação para salvar no arquivo
-            String infoAluno = String.format("Nome: %s, Login: %s, Senha: %s, NivelAtual: %d, Acertou: %d, TotalRespondidas: %d",
-                    aluno.getNome(), aluno.getLogin(), aluno.getSenha(), aluno.getNivelAtual(), aluno.getAcertou(), aluno.getTotalRespondidas());
+                System.out.println("Salvando no arquivo Aluno.txt: " + conteudo);
 
-            bw.write(infoAluno);
-            bw.newLine();
-
-            bw.close();
-            fw.close();
+                bw.write(conteudo);
+            }
         } catch (IOException e) {
             e.printStackTrace();
+            System.out.println("Erro ao acessar o arquivo " + caminhoArquivo);
         }
     }
 
@@ -56,22 +60,25 @@ public class Arquivos {
     // Método para ler informações dos alunos
     public List<Aluno> lerAlunos() {
         List<Aluno> alunos = new ArrayList<>();
-        String caminho = "Aluno.txt";
-        try (BufferedReader br = new BufferedReader(new FileReader(caminho))) {
+        File arquivo = new File("Aluno.txt");
+        if (!arquivo.exists()) {
+            return alunos;
+        }
+
+        try (BufferedReader br = new BufferedReader(new FileReader(arquivo))) {
             String linha;
             while ((linha = br.readLine()) != null) {
                 String[] dados = linha.split(", ");
-                // Ajuste para considerar a remoção do atributo tipo
-                if (dados.length >= 5) { // Verifica se há elementos suficientes
-                    Aluno aluno = new Aluno(dados[0].split(": ")[1], // nome
-                            dados[1].split(": ")[1], // login
-                            dados[2].split(": ")[1]); // senha
-                    // Configuração dos atributos adicionais
-                    aluno.setNivelAtual(Integer.parseInt(dados[3].split(": ")[1]));
-                    aluno.setAcertou(Integer.parseInt(dados[4].split(": ")[1]));
-                    aluno.setTotalRespondidas(Integer.parseInt(dados[5].split(": ")[1]));
-                    alunos.add(aluno);
-                }
+
+                String nome = dados[0].split(": ")[1];
+                String login = dados[1].split(": ")[1];
+                String senha = dados[2].split(": ")[1];
+                int nivelAtual = Integer.parseInt(dados[3].split(": ")[1]);
+                int acertou = Integer.parseInt(dados[4].split(": ")[1]);
+                int totalRespondidas = Integer.parseInt(dados[5].split(": ")[1]);
+
+                Aluno aluno = new Aluno(nome, login, senha, nivelAtual, acertou, totalRespondidas);
+                alunos.add(aluno);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -112,6 +119,7 @@ public class Arquivos {
         }
         return false;
     }
+
     // Método para verificar se o usuario já está cadastrado
     public boolean alunoJaExiste(String login) {
         List<Aluno> alunosExistentes = lerAlunos();
@@ -129,11 +137,13 @@ public class Arquivos {
             while (scanner.hasNextLine()) {
                 String linha = scanner.nextLine();
                 String[] dados = linha.split(", ");
-                // Supondo que o formato seja "Login: valor, Senha: valor, ..."
-                String loginArquivo = dados[2].split(": ")[1];
-                String senhaArquivo = dados[3].split(": ")[1];
-                if (loginArquivo.equals(login) && senhaArquivo.equals(senha)) {
-                    return true;
+                // Ajuste para garantir que estamos acessando os índices corretos
+                if (dados.length > 2) { // Garante que há dados suficientes na linha
+                    String loginArquivo = dados[1].split(": ")[1].trim(); // Adiciona trim() para remover espaços extras
+                    String senhaArquivo = dados[2].split(": ")[1].trim(); // Adiciona trim() para remover espaços extras
+                    if (loginArquivo.equals(login) && senhaArquivo.equals(senha)) {
+                        return true;
+                    }
                 }
             }
         } catch (FileNotFoundException e) {
@@ -142,4 +152,30 @@ public class Arquivos {
         return false;
     }
 
+    public Aluno buscarAluno(String loginProcurado) {
+        File arquivo = new File("Aluno.txt");
+        if (!arquivo.exists()) {
+            return null;
+        }
+
+        try (BufferedReader br = new BufferedReader(new FileReader(arquivo))) {
+            String linha;
+            while ((linha = br.readLine()) != null) {
+                String[] atributos = linha.split(", "); // Supondo que os atributos são separados por vírgula e espaço
+                String login = atributos[1].split(": ")[1]; // Supondo que o login é o segundo atributo e está no formato "Login: valor"
+                if (login.equals(loginProcurado)) {
+                    // Supondo que os atributos estão na ordem: Nome, Login, Senha, NivelAtual, Acertou, TotalRespondidas
+                    String nome = atributos[0].split(": ")[1];
+                    String senha = atributos[2].split(": ")[1];
+                    int nivelAtual = Integer.parseInt(atributos[3].split(": ")[1]);
+                    int acertou = Integer.parseInt(atributos[4].split(": ")[1]);
+                    int totalRespondidas = Integer.parseInt(atributos[5].split(": ")[1]);
+                    return new Aluno(nome, login, senha, nivelAtual, acertou, totalRespondidas);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

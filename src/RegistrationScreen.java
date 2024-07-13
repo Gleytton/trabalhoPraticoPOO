@@ -49,8 +49,26 @@ public class RegistrationScreen extends JFrame {
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Implement submission logic here
-                System.out.println("Submit button clicked");
+                String nome = nameField.getText();
+                String login = loginField.getText();
+                String senha = new String(passwordField.getPassword());
+                System.out.println(nome + login + senha);
+
+                Arquivos arquivos = new Arquivos(); // Create an instance of Arquivos
+
+                if (studentRadioButton.isSelected()) {
+                    if (!arquivos.alunoJaExiste(login)) { // Call the method on the instance
+                        Aluno aluno = new Aluno(nome, login, senha, 1, 0, 0);
+                        arquivos.salvarAluno(aluno); // Assuming salvarAluno is also an instance method
+                        JOptionPane.showMessageDialog(null, "Aluno registrado com sucesso!");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Aluno já cadastrado!");
+                    }
+                } else if (professorRadioButton.isSelected()) {
+                    // Implementação para registrar professor
+                } else {
+                    JOptionPane.showMessageDialog(null, "Nenhuma opção selecionada");
+                }
             }
         });
     }
