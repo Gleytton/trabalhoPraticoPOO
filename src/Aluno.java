@@ -13,7 +13,12 @@ public class Aluno extends Usuario {
         this.acertou = 0; // Total de acertos inicializado como 0
         this.totalRespondidas = 0; // Total respondidas inicializado como 0
 
-
+        Arquivos arquivos = new Arquivos();
+        if (arquivos.alunoJaExiste(login)) {
+            System.out.println("Usuario já cadastrado!");
+        } else {
+            arquivos.salvarAluno(this);
+        }
     }
 
     //método criar aluno

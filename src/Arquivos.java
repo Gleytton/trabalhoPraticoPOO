@@ -1,9 +1,11 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Arquivos {
 
+    // Dentro da classe Arquivos
     public void salvarAluno(Aluno aluno) {
         File arquivo = new File("Aluno.txt");
         try {
@@ -13,9 +15,9 @@ public class Arquivos {
             FileWriter fw = new FileWriter(arquivo, true);
             BufferedWriter bw = new BufferedWriter(fw);
 
-            // Formatação das informações do aluno para salvar no arquivo
-            String infoAluno = String.format("Login: %s, Senha: %s, Acertos: %d, Respondidas: %d, Nível: %d",
-                    aluno.getLogin(), aluno.getSenha(), aluno.getAcertou(), aluno.getTotalRespondidas(), aluno.getNivelAtual());
+            // Formatação para salvar no arquivo
+            String infoAluno = String.format("Nome: %s, Login: %s, Senha: %s, NivelAtual: %d, Acertou: %d, TotalRespondidas: %d",
+                    aluno.getNome(), aluno.getLogin(), aluno.getSenha(), aluno.getNivelAtual(), aluno.getAcertou(), aluno.getTotalRespondidas());
 
             bw.write(infoAluno);
             bw.newLine();
@@ -60,14 +62,14 @@ public class Arquivos {
             while ((linha = br.readLine()) != null) {
                 String[] dados = linha.split(", ");
                 // Ajuste para considerar a remoção do atributo tipo
-                if (dados.length >= 7) { // Verifica se há elementos suficientes
-                    Aluno aluno = new Aluno(dados[1].split(": ")[1], // nome
-                            dados[2].split(": ")[1], // login
-                            dados[3].split(": ")[1]); // senha
+                if (dados.length >= 5) { // Verifica se há elementos suficientes
+                    Aluno aluno = new Aluno(dados[0].split(": ")[1], // nome
+                            dados[1].split(": ")[1], // login
+                            dados[2].split(": ")[1]); // senha
                     // Configuração dos atributos adicionais
-                    aluno.setNivelAtual(Integer.parseInt(dados[4].split(": ")[1]));
-                    aluno.setAcertou(Integer.parseInt(dados[5].split(": ")[1]));
-                    aluno.setTotalRespondidas(Integer.parseInt(dados[6].split(": ")[1]));
+                    aluno.setNivelAtual(Integer.parseInt(dados[3].split(": ")[1]));
+                    aluno.setAcertou(Integer.parseInt(dados[4].split(": ")[1]));
+                    aluno.setTotalRespondidas(Integer.parseInt(dados[5].split(": ")[1]));
                     alunos.add(aluno);
                 }
             }
@@ -117,6 +119,25 @@ public class Arquivos {
             if (aluno.getLogin().equalsIgnoreCase(login)) {
                 return true;
             }
+        }
+        return false;
+    }
+
+    public boolean verificarLoginSenha(String login, String senha) {
+        File arquivo = new File("Aluno.txt");
+        try (Scanner scanner = new Scanner(arquivo)) {
+            while (scanner.hasNextLine()) {
+                String linha = scanner.nextLine();
+                String[] dados = linha.split(", ");
+                // Supondo que o formato seja "Login: valor, Senha: valor, ..."
+                String loginArquivo = dados[2].split(": ")[1];
+                String senhaArquivo = dados[3].split(": ")[1];
+                if (loginArquivo.equals(login) && senhaArquivo.equals(senha)) {
+                    return true;
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
         return false;
     }

@@ -1,2 +1,3 @@
-Login: null, Senha: null, Acertos: 0, Respondidas: 0, Nível: 1
-Login: null, Senha: null, Acertos: 0, Respondidas: 0, Nível: 1
+Nome: null, Login: null, Senha: null, NivelAtual: 1, Acertou: 0, TotalRespondidas: 0
+Nome: null, Login: null, Senha: null, NivelAtual: 1, Acertou: 0, TotalRespondidas: 0
+Nome: null, Login: null, Senha: null, NivelAtual: 1, Acertou: 0, TotalRespondidas: 0
