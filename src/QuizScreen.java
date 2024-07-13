@@ -11,9 +11,12 @@ public class QuizScreen extends JFrame {
     private JButton optionBButton;
     private JButton optionCButton;
     private JButton optionDButton;
+    private JLabel alunoNomeLabel;
+    private JLabel alunoNivelLabel;
     private List<Pergunta> perguntas;
     private int currentQuestionIndex = 0;
     private Aluno aluno;
+    private JLabel perguntasRestantesLabel;
 
     public QuizScreen(Aluno aluno) {
         this.aluno = aluno;
@@ -24,7 +27,7 @@ public class QuizScreen extends JFrame {
 
     private void setupUI() {
         setTitle("Quiz");
-        setSize(400, 300);
+        setSize(400, 350); // Ajustado para acomodar mais conteúdo
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainPanel = new JPanel();
         questionLabel = new JLabel();
@@ -32,8 +35,15 @@ public class QuizScreen extends JFrame {
         optionBButton = new JButton();
         optionCButton = new JButton();
         optionDButton = new JButton();
+        alunoNomeLabel = new JLabel("Aluno: " + aluno.getNome());
+        alunoNivelLabel = new JLabel("Nível: " + aluno.getNivelAtual());
+        perguntasRestantesLabel = new JLabel();
+        atualizarPerguntasRestantes(); // inicializar o texto do label
 
-        mainPanel.setLayout(new GridLayout(5, 1));
+        mainPanel.setLayout(new GridLayout(8, 1));
+        mainPanel.add(alunoNomeLabel);
+        mainPanel.add(alunoNivelLabel);
+        mainPanel.add(perguntasRestantesLabel);
         mainPanel.add(questionLabel);
         mainPanel.add(optionAButton);
         mainPanel.add(optionBButton);
@@ -80,6 +90,7 @@ public class QuizScreen extends JFrame {
             aluno.setAcertou(aluno.getAcertou() + 1);
             if (aluno.getAcertou() % 4 == 0) {
                 aluno.setNivelAtual(aluno.getNivelAtual() + 1);
+                alunoNivelLabel.setText("Nível: " + aluno.getNivelAtual()); // Atualiza o nível na interface
             }
             JOptionPane.showMessageDialog(this, "Resposta correta!");
         } else {
@@ -87,6 +98,12 @@ public class QuizScreen extends JFrame {
         }
         currentQuestionIndex++;
         setQuestion(currentQuestionIndex);
+        atualizarPerguntasRestantes();
+    }
+
+    private void atualizarPerguntasRestantes() {
+        int perguntasParaProximoNivel = 4 - (aluno.getAcertou() % 4);
+        perguntasRestantesLabel.setText("Perguntas restantes para o próximo nível: " + perguntasParaProximoNivel);
     }
 
     public static void main(String[] args) {

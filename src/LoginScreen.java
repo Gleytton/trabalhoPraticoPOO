@@ -36,11 +36,23 @@ public class LoginScreen extends JFrame {
                 String login = loginField.getText();
                 String senha = new String(passwordField.getPassword());
                 Arquivos arquivos = new Arquivos();
+
                 if (arquivos.verificarLoginSenha(login, senha)) {
                     Aluno alunoLogado = arquivos.buscarAluno(login);
-                    QuizScreen quizScreen = new QuizScreen(alunoLogado);
-                    quizScreen.setVisible(true);
-                    dispose(); // Fecha a tela de login
+                    if (alunoLogado != null) {
+                        QuizScreen quizScreen = new QuizScreen(alunoLogado);
+                        quizScreen.setVisible(true);
+                        dispose(); // Fecha a tela de login
+                    } else {
+                        Professor professorLogado = arquivos.buscarProfessor(login);
+                        if (professorLogado != null) {
+                            ProfessorScreen professorScreen = new ProfessorScreen(professorLogado.getNome());
+                            professorScreen.setVisible(true);
+                            dispose(); // Fecha a tela de login
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Login ou senha inválidos.");
+                        }
+                    }
                 } else {
                     JOptionPane.showMessageDialog(null, "Login ou senha inválidos.");
                 }

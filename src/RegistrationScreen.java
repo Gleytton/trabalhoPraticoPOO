@@ -57,9 +57,17 @@ public class RegistrationScreen extends JFrame {
 
                 if (studentRadioButton.isSelected()) {
                     Aluno aluno = new Aluno(nome, login, senha, 1, 0, 0);
-                    arquivos.salvarAluno(aluno); // Assuming salvarAluno is also an instance method
+                    arquivos.salvarAluno(aluno);
+                    dispose();
+                    LoginScreen loginScreen = new LoginScreen();
+                    loginScreen.setVisible(true);
                 } else if (professorRadioButton.isSelected()) {
-                    // Implementação para registrar professor
+                    Professor professor = new Professor(nome, login, senha);
+                    arquivos.salvarProfessor(professor);
+                    JOptionPane.showMessageDialog(null, "Professor registrado com sucesso!");
+                    dispose();
+                    LoginScreen loginScreen = new LoginScreen();
+                    loginScreen.setVisible(true);
                 } else {
                     JOptionPane.showMessageDialog(null, "Nenhuma opção selecionada");
                 }

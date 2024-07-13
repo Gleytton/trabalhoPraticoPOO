@@ -67,15 +67,23 @@ public class Arquivos {
     // Método para ler informações dos alunos
     public List<Aluno> lerAlunos() {
         List<Aluno> alunos = new ArrayList<>();
-        File arquivo = new File("Aluno.txt");
-        if (!arquivo.exists()) {
+        String caminhoArquivo = "Aluno.txt"; // Considere usar um caminho absoluto aqui
+        File arquivo = new File(caminhoArquivo);
+
+        if (!arquivo.exists() || arquivo.length() == 0) {
+            System.out.println("O arquivo não existe ou está vazio.");
             return alunos;
         }
 
         try (BufferedReader br = new BufferedReader(new FileReader(arquivo))) {
             String linha;
             while ((linha = br.readLine()) != null) {
+                System.out.println("Linha lida: " + linha); // Imprime cada linha lida para depuração
                 String[] dados = linha.split(", ");
+                if (dados.length < 6) { // Verifica se todos os dados necessários estão presentes
+                    System.out.println("Dados incompletos na linha: " + linha);
+                    continue;
+                }
                 String nome = dados[0].split(": ")[1];
                 String login = dados[1].split(": ")[1];
                 String senha = dados[2].split(": ")[1];
@@ -184,4 +192,95 @@ public class Arquivos {
         }
         return null;
     }
+
+    public void salvarProfessor(Professor professor) {
+        if (professorJaExiste(professor.getLogin())) {
+            JOptionPane.showMessageDialog(null, "Professor já cadastrado!");
+            return;
+        }
+
+        String caminhoArquivo = "Professores.txt";
+        File arquivo = new File(caminhoArquivo);
+        try {
+            if (!arquivo.exists()) {
+                arquivo.createNewFile();
+            }
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(arquivo, true))) {
+                String conteudo = String.format("Nome: %s, Login: %s, Senha: %s\n",
+                        professor.getNome(), professor.getLogin(), professor.getSenha());
+
+                bw.write(conteudo);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Erro ao salvar professor.");
+        }
+    }
+
+    public List<Professor> lerProfessores() {
+        List<Professor> professores = new ArrayList<>();
+        String caminhoArquivo = "Professores.txt";
+        File arquivo = new File(caminhoArquivo);
+
+        if (!arquivo.exists()) {
+            return professores;
+        }
+
+        try (BufferedReader br = new BufferedReader(new FileReader(arquivo))) {
+            String linha;
+            while ((linha = br.readLine()) != null) {
+                String[] dados = linha.split(", ");
+                if (dados.length < 3) {
+                    continue;
+                }
+                String nome = dados[0].split(": ")[1];
+                String login = dados[1].split(": ")[1];
+                String senha = dados[2].split(": ")[1];
+
+                Professor professor = new Professor(nome, login, senha);
+                professores.add(professor);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return professores;
+    }
+
+    public boolean professorJaExiste(String login) {
+        List<Professor> professoresExistentes = lerProfessores();
+        for (Professor professor : professoresExistentes) {
+            if (professor.getLogin().equalsIgnoreCase(login)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Professor buscarProfessor(String login) {
+        File arquivo = new File("Professores.txt");
+        if (!arquivo.exists()) {
+            return null;
+        }
+
+        try (BufferedReader br = new BufferedReader(new FileReader(arquivo))) {
+            String linha;
+            while ((linha = br.readLine()) != null) {
+                String[] dados = linha.split(", ");
+                if (dados.length < 3) continue; // Verifica se a linha tem todos os dados necessários
+
+                String nome = dados[0].split(": ")[1];
+                String loginLido = dados[1].split(": ")[1];
+                String senha = dados[2].split(": ")[1];
+
+                if (loginLido.equalsIgnoreCase(login)) {
+                    return new Professor(nome, loginLido, senha);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null; // Retorna null se não encontrar o professor
+    }
 }
+
