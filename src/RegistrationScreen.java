@@ -12,11 +12,12 @@ public class RegistrationScreen extends JFrame {
 
     public RegistrationScreen() {
         setTitle("Registration Screen");
-        setSize(350, 250);
+        setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         initializeComponents();
         layoutComponents();
         initializeListeners();
+        setLocationRelativeTo(null);
     }
 
     private void initializeComponents() {

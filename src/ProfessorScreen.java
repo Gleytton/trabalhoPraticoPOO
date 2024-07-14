@@ -12,9 +12,10 @@ public class ProfessorScreen extends JFrame {
 
     public ProfessorScreen(String professorName) {
         setTitle("Área do Professor");
-        setSize(400, 300);
+        setSize(800, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+        setLocationRelativeTo(null);
 
         levelComboBox = new JComboBox<>(new String[]{"1", "2", "3", "4"});
         add(new JLabel("Nível da Pergunta:"));

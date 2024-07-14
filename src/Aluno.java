@@ -14,7 +14,6 @@ public class Aluno extends Usuario {
     }
     //getters & setters
 
-
     public int getTotalRespondidas() {
         return this.totalRespondidas;
     }

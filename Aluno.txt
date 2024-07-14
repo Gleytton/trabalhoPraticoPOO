@@ -1,1 +1,1 @@
-Nome: lucas Sodre, Login: lugavit, Senha: 25787435, NivelAtual: 1, Acertou: 1, TotalRespondidas: 10
+Nome: lucas Sodre, Login: lugavit, Senha: 25787435, NivelAtual: 2, Acertou: 5, TotalRespondidas: 18

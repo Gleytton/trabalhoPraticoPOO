@@ -17,30 +17,34 @@ public class QuizScreen extends JFrame {
     private int currentQuestionIndex = 0;
     private Aluno aluno;
     private JLabel perguntasRestantesLabel;
+    private JButton sairButton;
 
     public QuizScreen(Aluno aluno) {
         this.aluno = aluno;
         perguntas = new Arquivos().lerPerguntas();
         setupUI();
         setQuestion(currentQuestionIndex);
+        setLocationRelativeTo(null);
     }
 
     private void setupUI() {
         setTitle("Quiz");
-        setSize(400, 350); // Ajustado para acomodar mais conteúdo
+        setSize(800, 600); // Ajustado para acomodar mais conteúdo
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
         mainPanel = new JPanel();
         questionLabel = new JLabel();
         optionAButton = new JButton();
         optionBButton = new JButton();
         optionCButton = new JButton();
         optionDButton = new JButton();
+        sairButton = new JButton("Sair");
         alunoNomeLabel = new JLabel("Aluno: " + aluno.getNome());
         alunoNivelLabel = new JLabel("Nível: " + aluno.getNivelAtual());
         perguntasRestantesLabel = new JLabel();
         atualizarPerguntasRestantes(); // inicializar o texto do label
 
-        mainPanel.setLayout(new GridLayout(8, 1));
+        mainPanel.setLayout(new GridLayout(9, 1)); // Garante que o layout possa acomodar todos os componentes
         mainPanel.add(alunoNomeLabel);
         mainPanel.add(alunoNivelLabel);
         mainPanel.add(perguntasRestantesLabel);
@@ -49,9 +53,11 @@ public class QuizScreen extends JFrame {
         mainPanel.add(optionBButton);
         mainPanel.add(optionCButton);
         mainPanel.add(optionDButton);
+        mainPanel.add(sairButton); // Adiciona o sairButton ao painel
 
         add(mainPanel);
 
+        // Configuração dos listeners dos botões
         ActionListener optionListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -63,6 +69,8 @@ public class QuizScreen extends JFrame {
         optionBButton.addActionListener(optionListener);
         optionCButton.addActionListener(optionListener);
         optionDButton.addActionListener(optionListener);
+
+        sairButton.addActionListener(e -> dispose()); // Listener para fechar a janela
     }
 
     private void setQuestion(int questionIndex) {
@@ -78,8 +86,7 @@ public class QuizScreen extends JFrame {
             optionDButton.setText(currentQuestion.getOpcD());
             optionDButton.setActionCommand("D");
         } else {
-            //JOptionPane.showMessageDialog(this, "Quiz concluído!");
-            dispose(); // Fecha a janela do quiz
+            mostrarResumoEFinalizar();
         }
     }
 
@@ -108,6 +115,13 @@ public class QuizScreen extends JFrame {
     private void atualizarPerguntasRestantes() {
         int perguntasParaProximoNivel = 4 - (aluno.getAcertou() % 4);
         perguntasRestantesLabel.setText("Perguntas restantes para o próximo nível: " + perguntasParaProximoNivel);
+    }
+
+    private void mostrarResumoEFinalizar() {
+        String mensagem = String.format("Resumo do Quiz:\nNível Atual: %d\nTotal de Perguntas Respondidas: %d\nTotal de Acertos: %d",
+                aluno.getNivelAtual(), aluno.getTotalRespondidas(), aluno.getAcertou());
+        JOptionPane.showMessageDialog(this, mensagem, "Resumo do Quiz", JOptionPane.INFORMATION_MESSAGE);
+        dispose(); // Fecha a janela do quiz
     }
 
     public static void main(String[] args) {

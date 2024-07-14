@@ -11,9 +11,10 @@ public class LoginScreen extends JFrame {
 
     public LoginScreen() {
         setTitle("Login");
-        setSize(300, 200);
+        setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         buildUI();
+        setLocationRelativeTo(null);
     }
 
     private void buildUI() {
