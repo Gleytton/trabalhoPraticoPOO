@@ -1,7 +1,9 @@
 import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Arquivos {
 
@@ -24,9 +26,12 @@ public class Arquivos {
                 arquivo.createNewFile();
             }
             try (BufferedWriter bw = new BufferedWriter(new FileWriter(arquivo, true))) {
-                String conteudo = String.format("Nome: %s, Login: %s, Senha: %s, NivelAtual: %d, Acertou: %d, TotalRespondidas: %d\n",
+                String perguntasRespondidas = aluno.getPerguntasRespondidasCorretamente().stream()
+                        .map(String::valueOf)
+                        .collect(Collectors.joining(","));
+                String conteudo = String.format("Nome: %s, Login: %s, Senha: %s, NivelAtual: %d, Acertou: %d, TotalRespondidas: %d, PerguntasRespondidasCorretamente: %s\n",
                         aluno.getNome(), aluno.getLogin(), aluno.getSenha(), aluno.getNivelAtual(),
-                        aluno.getAcertou(), aluno.getTotalRespondidas());
+                        aluno.getAcertou(), aluno.getTotalRespondidas(), perguntasRespondidas);
 
                 bw.write(conteudo);
             }
@@ -78,9 +83,8 @@ public class Arquivos {
         try (BufferedReader br = new BufferedReader(new FileReader(arquivo))) {
             String linha;
             while ((linha = br.readLine()) != null) {
-                System.out.println("Linha lida: " + linha); // Imprime cada linha lida para depuração
                 String[] dados = linha.split(", ");
-                if (dados.length < 6) { // Verifica se todos os dados necessários estão presentes
+                if (dados.length < 7) { // Verifica se todos os dados necessários estão presentes
                     System.out.println("Dados incompletos na linha: " + linha);
                     continue;
                 }
@@ -90,8 +94,12 @@ public class Arquivos {
                 int nivelAtual = Integer.parseInt(dados[3].split(": ")[1]);
                 int acertou = Integer.parseInt(dados[4].split(": ")[1]);
                 int totalRespondidas = Integer.parseInt(dados[5].split(": ")[1]);
+                List<Integer> perguntasRespondidasCorretamente = Arrays.stream(dados[6].split(": ")[1].split(","))
+                        .map(Integer::parseInt)
+                        .collect(Collectors.toList());
 
                 Aluno aluno = new Aluno(nome, login, senha, nivelAtual, acertou, totalRespondidas);
+                aluno.setPerguntasRespondidasCorretamente(perguntasRespondidasCorretamente);
                 alunos.add(aluno);
             }
         } catch (IOException e) {
@@ -108,14 +116,19 @@ public class Arquivos {
             String linha;
             while ((linha = br.readLine()) != null) {
                 String[] dados = linha.split(", ");
-                Pergunta perguntaExistentes = new Pergunta(Integer.parseInt(dados[1].split(": ")[1]),
-                        dados[2].split(": ")[1],
-                        dados[3].split(": ")[1],
-                        dados[4].split(": ")[1],
-                        dados[5].split(": ")[1],
-                        dados[6].split(": ")[1],
-                        dados[7].split(": ")[1]);
-                perguntas.add(perguntaExistentes);
+                // Verifica se todos os elementos esperados estão presentes
+                if (dados.length >= 8) {
+                    Pergunta perguntaExistentes = new Pergunta(Integer.parseInt(dados[1].split(": ")[1].trim()),
+                            dados[2].split(": ")[1].trim(),
+                            dados[3].split(": ")[1].trim(),
+                            dados[4].split(": ")[1].trim(),
+                            dados[5].split(": ")[1].trim(),
+                            dados[6].split(": ")[1].trim(),
+                            dados[7].split(": ")[1].trim());
+                    perguntas.add(perguntaExistentes);
+                } else {
+                    System.out.println("Linha com dados faltando: " + linha);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -282,29 +295,32 @@ public class Arquivos {
 
         return ultimoId;
     }
+
     public void atualizarStatusAluno(Aluno aluno) {
         File arquivo = new File("Aluno.txt");
-        List<String> linhas = new ArrayList<>();
-        String linhaAtualizada = "Nome: " + aluno.getNome() + ", Login: " + aluno.getLogin() + ", Senha: "
-                + aluno.getSenha() + ", NivelAtual: " + aluno.getNivelAtual() + ", Acertou: " + aluno.getAcertou()
-                + ", TotalRespondidas: " + aluno.getTotalRespondidas();
-
+        List<String> linhasAtualizadas = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(arquivo))) {
             String linha;
             while ((linha = br.readLine()) != null) {
                 if (linha.contains("Login: " + aluno.getLogin())) {
-                    linhas.add(linhaAtualizada);
+                    String perguntasRespondidas = aluno.getPerguntasRespondidasCorretamente().stream()
+                            .map(String::valueOf)
+                            .collect(Collectors.joining(","));
+                    String novaLinha = String.format("Nome: %s, Login: %s, Senha: %s, NivelAtual: %d, Acertou: %d, TotalRespondidas: %d, PerguntasRespondidasCorretamente: %s",
+                            aluno.getNome(), aluno.getLogin(), aluno.getSenha(), aluno.getNivelAtual(),
+                            aluno.getAcertou(), aluno.getTotalRespondidas(), perguntasRespondidas);
+                    linhasAtualizadas.add(novaLinha);
                 } else {
-                    linhas.add(linha);
+                    linhasAtualizadas.add(linha);
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        try (PrintWriter pw = new PrintWriter(new FileWriter(arquivo))) {
-            for (String novaLinha : linhas) {
-                pw.println(novaLinha);
+        try (PrintWriter pw = new PrintWriter(new FileWriter(arquivo, false))) {
+            for (String atualizada : linhasAtualizadas) {
+                pw.println(atualizada);
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,2 +1,16 @@
-ID: 1, Nível: 1, Pergunta: amarelo em ingles, A: yellow , B: blue , C: green , D: black, Resposta: A
-ID: 2, Nível: 1, Pergunta: huiasdhuiasd, A: dfoifa, B: bbui, C: juibi, D: b , Resposta: D
+ID: 0, Nível: 1, Pergunta: amarelo em ingles, A: yellow , B: blue , C: green , D: black, Resposta: A
+ID: 1, Nível: 1, Pergunta: amareloo em ingles, A: yellow , B: blue , C: green , D: black, Resposta: A
+ID: 2, Nível: 1, Pergunta: amarelooo em ingles, A: yellow , B: blue , C: green , D: black, Resposta: A
+ID: 3, Nível: 1, Pergunta: amareloooo em ingles, A: yellow , B: blue , C: green , D: black, Resposta: A
+ID: 4, Nível: 2, Pergunta: amarelooooo em ingles, A: yellow , B: blue , C: green , D: black, Resposta: A
+ID: 5, Nível: 2, Pergunta: amareloooooo em ingles, A: yellow , B: blue , C: green , D: black, Resposta: A
+ID: 6, Nível: 2, Pergunta: amarelooooooo em ingles, A: yellow , B: blue , C: green , D: black, Resposta: A
+ID: 7, Nível: 2, Pergunta: amareloooooooo em ingles, A: yellow , B: blue , C: green , D: black, Resposta: A
+ID: 8, Nível: 3, Pergunta: amarelooooooooo em ingles, A: yellow , B: blue , C: green , D: black, Resposta: A
+ID: 9, Nível: 3, Pergunta: amarello em ingles, A: yellow , B: blue , C: green , D: black, Resposta: A
+ID: 10, Nível: 3, Pergunta: amarelllo em ingles, A: yellow , B: blue , C: green , D: black, Resposta: A
+ID: 11, Nível: 3, Pergunta: amarellllo em ingles, A: yellow , B: blue , C: green , D: black, Resposta: A
+ID: 12, Nível: 4, Pergunta: amarelllllo em ingles, A: yellow , B: blue , C: green , D: black, Resposta: A
+ID: 13, Nível: 4, Pergunta: amarellllllo em ingles, A: yellow , B: blue , C: green , D: black, Resposta: A
+ID: 14, Nível: 4, Pergunta: amarelllllllo em ingles, A: yellow , B: blue , C: green , D: black, Resposta: A
+

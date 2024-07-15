@@ -61,7 +61,10 @@ public class QuizScreen extends JFrame {
         ActionListener optionListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                checkAnswer(e.getActionCommand());
+                JButton clickedButton = (JButton) e.getSource();
+                String buttonText = clickedButton.getText();
+                String selectedOption = buttonText.substring(0, 1); // Pega apenas a letra da opção (A, B, C, D)
+                checkAnswer(selectedOption);
             }
         };
 
@@ -70,21 +73,18 @@ public class QuizScreen extends JFrame {
         optionCButton.addActionListener(optionListener);
         optionDButton.addActionListener(optionListener);
 
-        sairButton.addActionListener(e -> dispose()); // Listener para fechar a janela
+        sairButton.addActionListener(e -> mostrarResumoEFinalizar());
     }
 
     private void setQuestion(int questionIndex) {
         if (questionIndex < perguntas.size()) {
             Pergunta currentQuestion = perguntas.get(questionIndex);
             questionLabel.setText(currentQuestion.getPergunta());
-            optionAButton.setText(currentQuestion.getOpcA());
-            optionAButton.setActionCommand("A");
-            optionBButton.setText(currentQuestion.getOpcB());
-            optionBButton.setActionCommand("B");
-            optionCButton.setText(currentQuestion.getOpcC());
-            optionCButton.setActionCommand("C");
-            optionDButton.setText(currentQuestion.getOpcD());
-            optionDButton.setActionCommand("D");
+            optionAButton.setText("A) " + currentQuestion.getOpcA());
+            optionBButton.setText("B) " + currentQuestion.getOpcB());
+            optionCButton.setText("C) " + currentQuestion.getOpcC());
+            optionDButton.setText("D) " + currentQuestion.getOpcD());
+            atualizarPerguntasRestantes();
         } else {
             mostrarResumoEFinalizar();
         }
@@ -93,24 +93,31 @@ public class QuizScreen extends JFrame {
     private void checkAnswer(String selectedOption) {
         Arquivos arquivos = new Arquivos();
         Pergunta currentQuestion = perguntas.get(currentQuestionIndex);
-        if (selectedOption.equalsIgnoreCase(currentQuestion.getResposta())) {
+        boolean isCorrect = selectedOption.equalsIgnoreCase(currentQuestion.getResposta());
+        if (isCorrect) {
             aluno.setAcertou(aluno.getAcertou() + 1);
-            aluno.setTotalRespondidas(aluno.getTotalRespondidas() + 1);
-
-            if (aluno.getAcertou() % 4 == 0) {
-                aluno.setNivelAtual(aluno.getNivelAtual() + 1);
-                alunoNivelLabel.setText("Nível: " + aluno.getNivelAtual()); // Atualiza o nível na interface
-            }
-            JOptionPane.showMessageDialog(this, "Resposta correta!");
-        } else {
-            aluno.setTotalRespondidas(aluno.getTotalRespondidas() + 1);
-            JOptionPane.showMessageDialog(this, "Resposta incorreta!");
+            aluno.adicionarPerguntaRespondidaCorretamente(currentQuestion.getIdPergunta());
         }
+        aluno.setTotalRespondidas(aluno.getTotalRespondidas() + 1);
+
+        if (aluno.getAcertou() % 4 == 0 && isCorrect) {
+            aluno.setNivelAtual(aluno.getNivelAtual() + 1);
+            alunoNivelLabel.setText("Nível: " + aluno.getNivelAtual());
+            mostrarResumo(); // Chama o método para mostrar o resumo sem finalizar
+        }
+
+        JOptionPane.showMessageDialog(this, isCorrect ? "Resposta correta!" : "Resposta incorreta!");
+
         currentQuestionIndex++;
-        setQuestion(currentQuestionIndex);
+        if (currentQuestionIndex < perguntas.size()) {
+            setQuestion(currentQuestionIndex);
+        } else {
+            mostrarResumoEFinalizar(); // Este método será chamado apenas se todas as perguntas forem respondidas
+        }
         atualizarPerguntasRestantes();
         arquivos.atualizarStatusAluno(aluno);
     }
+
 
     private void atualizarPerguntasRestantes() {
         int perguntasParaProximoNivel = 4 - (aluno.getAcertou() % 4);
@@ -118,10 +125,14 @@ public class QuizScreen extends JFrame {
     }
 
     private void mostrarResumoEFinalizar() {
-        String mensagem = String.format("Resumo do Quiz:\nNível Atual: %d\nTotal de Perguntas Respondidas: %d\nTotal de Acertos: %d",
-                aluno.getNivelAtual(), aluno.getTotalRespondidas(), aluno.getAcertou());
-        JOptionPane.showMessageDialog(this, mensagem, "Resumo do Quiz", JOptionPane.INFORMATION_MESSAGE);
-        dispose(); // Fecha a janela do quiz
+        mostrarResumo(); // Reutiliza o método mostrarResumo
+        dispose(); // Fecha a janela
+    }
+
+    private void mostrarResumo() {
+        String mensagemResumo = String.format("Resumo do Quiz:\nTotal de Perguntas Respondidas: %d\nTotal de Acertos: %d\nNível Atual: %d",
+                aluno.getTotalRespondidas(), aluno.getAcertou(), aluno.getNivelAtual());
+        JOptionPane.showMessageDialog(this, mensagemResumo, "Resumo do Quiz", JOptionPane.INFORMATION_MESSAGE);
     }
 
     public static void main(String[] args) {
