@@ -100,7 +100,7 @@ public class QuizScreen extends JFrame {
         }
         aluno.setTotalRespondidas(aluno.getTotalRespondidas() + 1);
 
-        if (aluno.getAcertou() % 4 == 0 && isCorrect) {
+        if (aluno.getAcertou() % 4 == 0 && isCorrect && aluno.getNivelAtual() <= 4) {
             aluno.setNivelAtual(aluno.getNivelAtual() + 1);
             alunoNivelLabel.setText("Nível: " + aluno.getNivelAtual());
             mostrarResumo(); // Chama o método para mostrar o resumo sem finalizar
