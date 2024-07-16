@@ -1,0 +1,6 @@
+Nome: lucas, Login: lugavit, Senha: 25787435, NivelAtual: 10, Acertou: 36, TotalRespondidas: 50, PerguntasRespondidasCorretamente: 0
+Nome: fabricio, Login: fafa, Senha: 22, NivelAtual: 2, Acertou: 6, TotalRespondidas: 6, PerguntasRespondidasCorretamente: 0
+Nome: teste, Login: teste, Senha: 22, NivelAtual: 2, Acertou: 14, TotalRespondidas: 14, PerguntasRespondidasCorretamente: 0
+Nome: asd, Login: asd, Senha: asd, NivelAtual: 2, Acertou: 67, TotalRespondidas: 67, PerguntasRespondidasCorretamente: 0
+Nome: 22222, Login: 22, Senha: 33, NivelAtual: 3, Acertou: 9, TotalRespondidas: 9, PerguntasRespondidasCorretamente: 0
+Nome: tata, Login: tata, Senha: fota, NivelAtual: 3, Acertou: 86, TotalRespondidas: 86, PerguntasRespondidasCorretamente: 0

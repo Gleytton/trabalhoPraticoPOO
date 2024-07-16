@@ -1,0 +1,2 @@
+Nome: Gleytton Figueiredo, Login: Gleytton, Senha: G123, NivelAtual: 1, Acertou: 0, TotalRespondidas: 0, PerguntasRespondidasCorretamente: 0
+Nome: João Lucas, Login: JLucas, Senha: JL123, NivelAtual: 1, Acertou: 0, TotalRespondidas: 0, PerguntasRespondidasCorretamente: 0
