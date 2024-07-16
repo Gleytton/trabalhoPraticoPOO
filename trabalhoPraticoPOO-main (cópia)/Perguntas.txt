@@ -1,0 +1,2 @@
+ID: 1, Nível: 1, Pergunta: amarelo em ingles, A: yellow , B: blue , C: green , D: black, Resposta: A
+ID: 2, Nível: 1, Pergunta: huiasdhuiasd, A: dfoifa, B: bbui, C: juibi, D: b , Resposta: D
