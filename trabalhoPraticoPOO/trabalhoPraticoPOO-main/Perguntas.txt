@@ -1,5 +1,0 @@
-ID: 0, Nível: 1, Pergunta: amarelo em ingles, A: yellow , B: blue , C: green , D: black, Resposta: A
-ID: 1, Nível: 1, Pergunta: yellow em ingles, A: yellow , B: blue , C: green , D: black, Resposta: A
-ID: 12, Nível: 4, Pergunta: odio em ingles, A: hate , B: blue , C: green , D: black, Resposta: A
-ID: 13, Nível: 4, Pergunta: repulsa em ingles, A: disgust , B: blue , C: green , D: black, Resposta: A
-ID: 14, Nível: 4, Pergunta: nojo em ingles, A: disgust , B: blue , C: green , D: black, Resposta: A
